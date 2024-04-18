@@ -1,7 +1,6 @@
 import "~/styles/globals.css";
 
 import { Inter } from "next/font/google";
-import Link from "next/link";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -18,6 +17,7 @@ function TopNav(){
   return (
     <nav className="flex items-center justify-between w-full p-4 text-xl font-semibold border-b">
      <div>Gallery</div>
+     <div>Sign In</div>
     </nav>
   )
 }
