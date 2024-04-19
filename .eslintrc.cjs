@@ -38,22 +38,8 @@ const config = {
         }
       }
     ],
-    "drizzle/enforce-delete-with-where": [
-      "error",
-      {
-        "drizzleObjectName": [
-          "db"
-        ]
-      }
-    ],
-    "drizzle/enforce-update-with-where": [
-      "error",
-      {
-        "drizzleObjectName": [
-          "db"
-        ]
-      }
-    ]
+    "drizzle/enforce-delete-with-where": "error",
+    "drizzle/enforce-update-with-where": "error"
   }
 }
 module.exports = config;

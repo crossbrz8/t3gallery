@@ -6,35 +6,44 @@ await import("./src/env.js");
 
 /** @type {import("next").NextConfig} */
 const coreConfig = {
-    images: {
-        remotePatterns : [
-            {
-                hostname : "utfs.io",
-            }
-        ],
-    },
-    typescript:{
-        ignoreBuildErrors:true,
-    },
-    eslint:{
-        ignoreDuringBuilds : true,
-    }
+  images: {
+    remotePatterns: [{ hostname: "utfs.io" }],
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+
+  async rewrites() {
+    return [
+      {
+        source: "/ingest/static/:path*",
+        destination: "https://us-assets.i.posthog.com/static/:path*",
+      },
+      {
+        source: "/ingest/:path*",
+        destination: "https://us.i.posthog.com/:path*",
+      },
+    ];
+  },
 };
 
 import { withSentryConfig } from "@sentry/nextjs";
 
 const config = withSentryConfig(
-    coreConfig,
-    {
+  coreConfig,
+  {
     // For all available options, see:
     // https://github.com/getsentry/sentry-webpack-plugin#options
 
     // Suppresses source map uploading logs during build
     silent: true,
-    org: "vinicius-jq",
+    org: "t3gg",
     project: "t3-gallery-video",
-    },
-    {
+  },
+  {
     // For all available options, see:
     // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
 
@@ -44,11 +53,10 @@ const config = withSentryConfig(
     // Transpiles SDK to be compatible with IE11 (increases bundle size)
     transpileClientSDK: true,
 
-    // Uncomment to route browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers.
-    // This can increase your server load as well as your hosting bill.
+    // Routes browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers. (increases server load)
     // Note: Check that the configured route will not match with your Next.js middleware, otherwise reporting of client-
     // side errors will fail.
-    // tunnelRoute: "/monitoring",
+    tunnelRoute: "/monitoring",
 
     // Hides source maps from generated client bundles
     hideSourceMaps: true,
@@ -61,11 +69,7 @@ const config = withSentryConfig(
     // https://docs.sentry.io/product/crons/
     // https://vercel.com/docs/cron-jobs
     automaticVercelMonitors: true,
-    }
+  },
 );
 
 export default config;
-
-
-// Injected content via Sentry wizard below
-
